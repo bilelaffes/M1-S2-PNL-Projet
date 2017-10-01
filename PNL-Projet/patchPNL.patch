@@ -1,0 +1,89 @@
+Seulement dans linux_Original-4.2.3/arch/x86/include: generated
+Seulement dans linux_Original-4.2.3/: .config
+Seulement dans linux_Original-4.2.3/: .config.old
+diff -u -r linux-4.2.3/fs/dcache.c linux_Original-4.2.3/fs/dcache.c
+--- linux-4.2.3/fs/dcache.c	2015-10-03 13:52:18.000000000 +0200
++++ linux_Original-4.2.3/fs/dcache.c	2017-04-06 12:14:51.663827572 +0200
+@@ -100,9 +100,12 @@
+  */
+ 
+ static unsigned int d_hash_mask __read_mostly;
+-static unsigned int d_hash_shift __read_mostly;
+ 
+-static struct hlist_bl_head *dentry_hashtable __read_mostly;
++unsigned int d_hash_shift __read_mostly;
++EXPORT_SYMBOL(d_hash_shift);
++
++struct hlist_bl_head *dentry_hashtable __read_mostly;
++EXPORT_SYMBOL(dentry_hashtable);
+ 
+ static inline struct hlist_bl_head *d_hash(const struct dentry *parent,
+ 					unsigned int hash)
+Seulement dans linux_Original-4.2.3/include: config
+Seulement dans linux_Original-4.2.3/include: generated
+diff -u -r linux-4.2.3/include/linux/dcache.h linux_Original-4.2.3/include/linux/dcache.h
+--- linux-4.2.3/include/linux/dcache.h	2015-10-03 13:52:18.000000000 +0200
++++ linux_Original-4.2.3/include/linux/dcache.h	2017-04-06 12:13:31.039831167 +0200
+@@ -584,4 +584,10 @@
+ 	return upper;
+ }
+ 
++/**
++ * Export pour le TP 7
++ */
++
++extern struct hlist_bl_head *dentry_hashtable __read_mostly;
++
+ #endif	/* __LINUX_DCACHE_H */
+diff -u -r linux-4.2.3/include/linux/fs.h linux_Original-4.2.3/include/linux/fs.h
+--- linux-4.2.3/include/linux/fs.h	2015-10-03 13:52:18.000000000 +0200
++++ linux_Original-4.2.3/include/linux/fs.h	2017-04-08 14:08:09.552564510 +0200
+@@ -66,6 +66,9 @@
+ extern int sysctl_protected_symlinks;
+ extern int sysctl_protected_hardlinks;
+ 
++extern unsigned int d_hash_shift __read_mostly;
++extern struct hlist_bl_head *dentry_hashtable __read_mostly;
++
+ struct buffer_head;
+ typedef int (get_block_t)(struct inode *inode, sector_t iblock,
+ 			struct buffer_head *bh_result, int create);
+@@ -1565,7 +1568,7 @@
+ 			 unsigned);
+ 
+ struct dir_context {
+-	const filldir_t actor;
++	/*const*/ filldir_t actor;
+ 	loff_t pos;
+ };
+ 
+Seulement dans linux_Original-4.2.3/: linux_patch.patch
+diff -u -r linux-4.2.3/mm/swapfile.c linux_Original-4.2.3/mm/swapfile.c
+--- linux-4.2.3/mm/swapfile.c	2015-10-03 13:52:18.000000000 +0200
++++ linux_Original-4.2.3/mm/swapfile.c	2017-04-30 17:27:59.638321661 +0200
+@@ -2578,6 +2578,8 @@
+ 	spin_unlock(&swap_lock);
+ }
+ 
++EXPORT_SYMBOL(si_swapinfo);
++
+ /*
+  * Verify that a swap entry is valid and increment its swap map count.
+  *
+Seulement dans linux_Original-4.2.3/: Module.symvers
+Seulement dans linux_Original-4.2.3/scripts: asn1_compiler
+Seulement dans linux_Original-4.2.3/scripts/basic: bin2c
+Seulement dans linux_Original-4.2.3/scripts/basic: fixdep
+Seulement dans linux_Original-4.2.3/scripts: conmakehash
+Seulement dans linux_Original-4.2.3/scripts: kallsyms
+Seulement dans linux_Original-4.2.3/scripts/kconfig: conf
+Seulement dans linux_Original-4.2.3/scripts/kconfig: zconf.hash.c
+Seulement dans linux_Original-4.2.3/scripts/kconfig: zconf.lex.c
+Seulement dans linux_Original-4.2.3/scripts/kconfig: zconf.tab.c
+Seulement dans linux_Original-4.2.3/scripts/mod: devicetable-offsets.h
+Seulement dans linux_Original-4.2.3/scripts/mod: elfconfig.h
+Seulement dans linux_Original-4.2.3/scripts/mod: mk_elfconfig
+Seulement dans linux_Original-4.2.3/scripts/mod: modpost
+Seulement dans linux_Original-4.2.3/scripts: recordmcount
+Seulement dans linux_Original-4.2.3/scripts: sortextable
+Seulement dans linux_Original-4.2.3/: .version
